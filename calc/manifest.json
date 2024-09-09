@@ -3,21 +3,22 @@
   "short_name": "Calc",
   "icons": [
     {
-      "src": "hexagon-192.png",
+      "src": "icons/hexagon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "hexagon-384.png",
+      "src": "icons/hexagon-384.png",
       "sizes": "384x384",
       "type": "image/png"
     },
     {
-      "src": "hexagon-512.png",
+      "src": "icons/hexagon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
+  "scope": "/calc/",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#3E4EB8",
