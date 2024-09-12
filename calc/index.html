@@ -51,7 +51,9 @@
         document.getElementById("bin").value = val.toString(2);
         document.getElementById("bin").value = val.toString(2);
         const c =
-          validChar || (val >= 32 && val < 127)
+          validChar ||
+          (val >= 32 && val < 127) ||
+          (val >= 0x2500 && val <= 0x25ff)
             ? String.fromCharCode(val)
             : " ";
 
