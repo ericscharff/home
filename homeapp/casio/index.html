@@ -1,0 +1,187 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Digital Watch</title>
+    <style>
+      @font-face {
+        font-family: "D7MI";
+        src: url("DSEG7Modern-Italic.woff") format("woff");
+      }
+
+      @font-face {
+        font-family: "D14MI";
+        src: url("DSEG14Modern-Italic.woff") format("woff");
+      }
+
+      @font-face {
+        font-family: "D7MBI";
+        src: url("DSEG7Modern-BoldItalic.woff") format("woff");
+      }
+
+      @font-face {
+        font-family: "DWEATHER";
+        src: url("DSEGWeather.woff") format("woff");
+      }
+
+      body {
+        background-color: #fbfbfb;
+        font-size: 16px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        max-width: 1600px;
+        line-height: 160%;
+        color: #0dbfeb;
+        font-family:
+          Meiryo, "Lucida Grande", "Hiragino Kaku Gothic ProN", sans-serif;
+      }
+
+      .D7MI {
+        font-family: "D7MI";
+      }
+
+      .D7MBI {
+        font-family: "D7MBI";
+      }
+
+      .D14MI {
+        font-family: "D14MI";
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      .Clock-Wrapper {
+        position: relative;
+        border: 12px solid #000;
+        border-radius: 18px;
+        height: 246px;
+        width: 612px;
+        background-color: #2b00fb;
+
+        box-shadow: 8px 8px 2px 0px rgba(0, 0, 0, 0.1) inset;
+      }
+
+      .Clock-Time-Background {
+        z-index: 50;
+        position: absolute;
+        top: 140px;
+        left: 12px;
+        color: rgba(0, 0, 0, 0.15);
+        font-size: 140px;
+      }
+
+      .Clock-Time-Front {
+        z-index: 100;
+        position: absolute;
+        top: 140px;
+        left: 12px;
+        font-size: 140px;
+      }
+
+      .Clock-Year-Background {
+        z-index: 50;
+        position: absolute;
+        top: 26px;
+        left: 12px;
+        color: rgba(0, 0, 0, 0.1);
+        font-size: 54px;
+      }
+
+      .Clock-Year-Front {
+        z-index: 100;
+        position: absolute;
+        top: 26px;
+        left: 12px;
+        font-size: 54px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="center">
+      <div class="Clock-Wrapper">
+        <span class="Clock-Time-Background D7MBI"
+          >88:88<span style="font-size: 60px">88</span></span
+        >
+        <span id="DSEGClock" class="Clock-Time-Front D7MBI"></span>
+        <span class="Clock-Year-Background"
+          ><span class="D7MI">2088-88-88</span
+          ><span class="D14MI"> ~~~</span></span
+        >
+        <span id="DSEGClock-Year" class="Clock-Year-Front"></span>
+      </div>
+    </div>
+
+    <script>
+      var daylist = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
+      function genTimerStrings(tm, num) {
+        var i;
+        var ret = tm.toString(10);
+        var left = ret.length;
+
+        if (left < num) {
+          for (i = 0; i < num - left; i++) {
+            ret = String(0) + ret;
+          }
+        }
+
+        return ret;
+      }
+
+      function updateTimer() {
+        var ret;
+        var date = new Date();
+        var tm_year, tm_mon, tm_date, tm_hour, tm_min, tm_sec, tm_msec, tm_day;
+        var colon;
+
+        tm_year = date.getFullYear();
+        tm_mon = date.getMonth() + 1;
+        tm_date = date.getDate();
+        tm_day = date.getDay();
+        tm_hour = date.getHours();
+        tm_min = date.getMinutes();
+        tm_sec = date.getSeconds();
+        tm_msec = date.getMilliseconds();
+
+        tm_mon = genTimerStrings(tm_mon, 2);
+        tm_date = genTimerStrings(tm_date, 2);
+        tm_hour = genTimerStrings(tm_hour, 2);
+        tm_min = genTimerStrings(tm_min, 2);
+        tm_sec = genTimerStrings(tm_sec, 2);
+        tm_day = daylist[tm_day];
+
+        if (tm_msec > 499) {
+          colon = " ";
+        } else {
+          colon = ":";
+        }
+
+        document.getElementById("DSEGClock").innerHTML =
+          tm_hour +
+          colon +
+          tm_min +
+          '<span style="font-size:60px;">' +
+          tm_sec +
+          "</span>";
+        document.getElementById("DSEGClock-Year").innerHTML =
+          '<span class="D7MI">' +
+          tm_year +
+          "-" +
+          tm_mon +
+          "-" +
+          tm_date +
+          " " +
+          '</span><span class="D14MI">' +
+          tm_day +
+          "." +
+          "</span>";
+
+        setTimeout("updateTimer()", 500 - (date.getMilliseconds() % 500));
+      }
+      updateTimer();
+    </script>
+  </body>
+</html>
