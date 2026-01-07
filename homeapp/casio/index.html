@@ -55,47 +55,47 @@
 
       .Clock-Wrapper {
         position: relative;
-        border: 12px solid #000;
-        border-radius: 18px;
-        height: 246px;
-        width: 612px;
+        border: 6px solid #000;
+        border-radius: 9px;
+        height: 123px;
+        width: 306px;
         background-color: #2b00fb;
 
-        box-shadow: 8px 8px 2px 0px rgba(0, 0, 0, 0.1) inset;
+        box-shadow: 4px 4px 1px 0px rgba(0, 0, 0, 0.1) inset;
       }
 
       .Clock-Time-Background {
         z-index: 50;
         position: absolute;
-        top: 140px;
-        left: 12px;
+        top: 70px;
+        left: 6px;
         color: rgba(0, 0, 0, 0.15);
-        font-size: 140px;
+        font-size: 70px;
       }
 
       .Clock-Time-Front {
         z-index: 100;
         position: absolute;
-        top: 140px;
-        left: 12px;
-        font-size: 140px;
+        top: 70px;
+        left: 6px;
+        font-size: 70px;
       }
 
       .Clock-Year-Background {
         z-index: 50;
         position: absolute;
-        top: 26px;
-        left: 12px;
+        top: 13px;
+        left: 6px;
         color: rgba(0, 0, 0, 0.1);
-        font-size: 54px;
+        font-size: 27px;
       }
 
       .Clock-Year-Front {
         z-index: 100;
         position: absolute;
-        top: 26px;
-        left: 12px;
-        font-size: 54px;
+        top: 13px;
+        left: 6px;
+        font-size: 27px;
       }
     </style>
   </head>
@@ -103,7 +103,7 @@
     <div class="center">
       <div class="Clock-Wrapper">
         <span class="Clock-Time-Background D7MBI"
-          >88:88<span style="font-size: 60px">88</span></span
+          >88:88<span style="font-size: 30px">88</span></span
         >
         <span id="DSEGClock" class="Clock-Time-Front D7MBI"></span>
         <span class="Clock-Year-Background"
@@ -163,7 +163,7 @@
           tm_hour +
           colon +
           tm_min +
-          '<span style="font-size:60px;">' +
+          '<span style="font-size:30px;">' +
           tm_sec +
           "</span>";
         document.getElementById("DSEGClock-Year").innerHTML =
