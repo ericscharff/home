@@ -117,50 +117,30 @@
     <script>
       var daylist = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-      function genTimerStrings(tm, num) {
-        return tm.toString().padStart(num, "0");
+      function zeroPad(tm) {
+        return tm.toString().padStart(2, "0");
       }
 
       function updateTimer() {
-        var ret;
-        var date = new Date();
-        var tm_year, tm_mon, tm_date, tm_hour, tm_min, tm_sec, tm_msec, tm_day;
-        var colon;
+        const now = new Date();
 
-        tm_year = date.getFullYear();
-        tm_mon = date.getMonth() + 1;
-        tm_date = date.getDate();
-        tm_day = date.getDay();
-        tm_hour = date.getHours();
-        tm_min = date.getMinutes();
-        tm_sec = date.getSeconds();
-        tm_msec = date.getMilliseconds();
-
-        tm_mon = genTimerStrings(tm_mon, 2);
-        tm_date = genTimerStrings(tm_date, 2);
-        tm_hour = genTimerStrings(tm_hour, 2);
-        tm_min = genTimerStrings(tm_min, 2);
-        tm_sec = genTimerStrings(tm_sec, 2);
-        tm_day = daylist[tm_day];
-
-        if (tm_msec > 499) {
-          colon = " ";
-        } else {
-          colon = ":";
-        }
+        const year = now.getFullYear();
+        const mon = zeroPad(now.getMonth() + 1);
+        const dayNum = zeroPad(now.getDate());
+        const day = daylist[now.getDay()];
+        const hour = zeroPad(now.getHours());
+        const min = zeroPad(now.getMinutes());
+        const sec = zeroPad(now.getSeconds());
+        const msec = now.getMilliseconds();
+        const colon = msec > 499 ? " " : ":";
 
         document.getElementById("DSEGClock").innerHTML =
-          tm_hour +
-          colon +
-          tm_min +
-          '<span style="font-size:30px;">' +
-          tm_sec +
-          "</span>";
+          `${hour}${colon}${min}<span style="font-size:30px;">${sec}</span>`;
         document.getElementById("DSEGClock-Year").innerHTML =
-          `<span class="D7MI">${tm_year}-${tm_mon}-${tm_date} </span>` +
-          `<span class="D14MI">${tm_day}.</span>`;
+          `<span class="D7MI">${year}-${mon}-${dayNum} </span>` +
+          `<span class="D14MI">${day}.</span>`;
 
-        setTimeout(updateTimer, 500 - (date.getMilliseconds() % 500));
+        setTimeout(updateTimer, 500 - (now.getMilliseconds() % 500));
       }
       updateTimer();
     </script>
