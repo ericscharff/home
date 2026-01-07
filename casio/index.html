@@ -118,17 +118,7 @@
       var daylist = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
       function genTimerStrings(tm, num) {
-        var i;
-        var ret = tm.toString(10);
-        var left = ret.length;
-
-        if (left < num) {
-          for (i = 0; i < num - left; i++) {
-            ret = String(0) + ret;
-          }
-        }
-
-        return ret;
+        return tm.toString().padStart(num, "0");
       }
 
       function updateTimer() {
