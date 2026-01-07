@@ -160,7 +160,7 @@
           `<span class="D7MI">${tm_year}-${tm_mon}-${tm_date} </span>` +
           `<span class="D14MI">${tm_day}.</span>`;
 
-        setTimeout("updateTimer()", 500 - (date.getMilliseconds() % 500));
+        setTimeout(updateTimer, 500 - (date.getMilliseconds() % 500));
       }
       updateTimer();
     </script>
