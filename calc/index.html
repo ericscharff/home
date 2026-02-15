@@ -16,6 +16,11 @@
         gap: 0.3rem 0.3rem;
         align-items: center;
       }
+      @media (max-width: 480px) {
+        .calculator {
+          grid-template-columns: 1fr;
+        }
+      }
       input {
         width: 100%;
         padding: 0.6rem;
@@ -108,14 +113,18 @@
         .addEventListener("input", (e) =>
           updateVal(e.target.value.charCodeAt(0), true),
         );
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("sw.js")
             .then((registration) => {
-              console.log('Service Worker registered with scope:', registration.scope);
+              console.log(
+                "Service Worker registered with scope:",
+                registration.scope,
+              );
             })
             .catch((error) => {
-              console.log('Service Worker registration failed:', error);
+              console.log("Service Worker registration failed:", error);
             });
         });
       }
