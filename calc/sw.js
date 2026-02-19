@@ -1,4 +1,4 @@
-const CACHE_NAME = "calc-v5";
+const CACHE_NAME = "calc-v6";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",

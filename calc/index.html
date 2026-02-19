@@ -28,6 +28,34 @@
         width: 100%;
         font-size: 1.2rem;
       }
+      .keyboard {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #f8f9fa;
+        display: none; /* Switched to grid when visible */
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        padding: 10px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+      .keyboard button {
+        padding: 15px;
+        font-size: 1.5rem;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        cursor: pointer;
+        touch-action: manipulation;
+      }
+      .keyboard button:active {
+        background: #e2e6ea;
+      }
+      .keyboard .wide {
+        grid-column: span 2;
+      }
     </style>
     <!-- Last modified Thu Feb 19 12:47:32 PM MST 2026 -->
   </head>
@@ -48,7 +76,18 @@
       <label for="eql">&nbsp;</label>
       <button id="eql">=</button>
     </div>
+    <div id="hex-keyboard" class="keyboard">
+      <button>1</button><button>2</button><button>3</button><button>A</button>
+      <button>4</button><button>5</button><button>6</button><button>B</button>
+      <button>7</button><button>8</button><button>9</button><button>C</button>
+      <button>0</button><button>D</button><button>E</button><button>F</button>
+      <button class="wide" id="hex-del">Del</button>
+      <button class="wide" id="hex-hide">Hide</button>
+    </div>
     <script>
+      const isTouch = window.matchMedia("(pointer: coarse)").matches;
+      const hexInput = document.getElementById("hex");
+      const hexKeyboard = document.getElementById("hex-keyboard");
       let val = 0;
 
       function updateVal(newVal, validChar) {
@@ -108,6 +147,44 @@
         .addEventListener("input", (e) =>
           updateVal(e.target.value.charCodeAt(0), true),
         );
+      if (isTouch) {
+        hexInput.setAttribute("inputmode", "none");
+        hexInput.addEventListener("focus", () => {
+          hexKeyboard.style.display = "grid";
+        });
+        document.addEventListener(
+          "click",
+          (e) => {
+            // Hide hex keyboard on non-hex touch
+            if (!hexKeyboard.contains(e.target) && e.target !== hexInput) {
+              hexKeyboard.style.display = "none";
+            }
+          },
+          true,
+        );
+      }
+      hexKeyboard.querySelectorAll("button").forEach((b) => {
+        b.addEventListener("click", (e) => {
+          //e.preventDefault(); // Keep focus on hex input
+          const key = b.textContent;
+          const currentVal = hexInput.value;
+
+          if (key === "Del") {
+            hexInput.value = currentVal.slice(0, -1);
+            doUpdate(hexInput.value, 16);
+            hexInput.focus();
+          } else if (key === "Hide") {
+            hexKeyboard.style.display = "none";
+            hexInput.blur();
+          } else {
+            // Number or letter key
+            hexInput.value = currentVal + key;
+            doUpdate(hexInput.value, 16);
+            hexInput.selectionStart = hexInput.value.length + 1;
+            hexInput.focus();
+          }
+        });
+      });
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
