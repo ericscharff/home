@@ -115,7 +115,7 @@
         return result.trim();
       }
 
-      function updateVal(newVal, validChar) {
+      function updateVal(newVal) {
         if (newVal != val && newVal >= 0 && newVal <= 0xffffffff) {
           val = newVal;
         }
@@ -135,7 +135,7 @@
         valTxt = valTxt.replaceAll(" ", "");
         if (valTxt === "") valTxt = "0";
         const newVal = Number.parseInt(valTxt, base);
-        updateVal(newVal, false);
+        updateVal(newVal);
       }
 
       const VALID_EXPR = /^[-+*/<>()&|^%0-9a-fA-Fx ]+$/;
@@ -145,7 +145,7 @@
         const expr = document.getElementById("expr");
         if (VALID_EXPR.test(expr.value)) {
           eval(`getValue = () => ${expr.value}`);
-          updateVal(getValue(), true);
+          updateVal(getValue());
         }
       }
 
@@ -173,7 +173,7 @@
       document
         .getElementById("char")
         .addEventListener("input", (e) =>
-          updateVal(e.target.value.charCodeAt(0), true),
+          updateVal(e.target.value.charCodeAt(0)),
         );
       if (isTouch) {
         hexInput.setAttribute("inputmode", "none");
@@ -214,7 +214,7 @@
         });
       });
       groupCheckbox.addEventListener("change", (e) => {
-        updateVal(val, true);
+        updateVal(val);
       });
 
       if ("serviceWorker" in navigator) {
