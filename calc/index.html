@@ -74,7 +74,11 @@
       <label for="expr">Expr:</label>
       <input id="expr" />
       <label for="eql">&nbsp;</label>
-      <button id="eql">=</button>
+      <span>
+        <button style="width: 50%" id="eql">=</button>
+        <input style="width: auto" type="checkbox" id="group" />
+        <label style="width: auto" for="group">Group</label>
+      </span>
     </div>
     <div id="hex-keyboard" class="keyboard">
       <button>1</button><button>2</button><button>3</button><button>A</button>
@@ -88,22 +92,47 @@
       const isTouch = window.matchMedia("(pointer: coarse)").matches;
       const hexInput = document.getElementById("hex");
       const hexKeyboard = document.getElementById("hex-keyboard");
+      const groupCheckbox = document.getElementById("group");
       let val = 0;
+
+      function group(s, grouping) {
+        if (!groupCheckbox.checked) {
+          return s;
+        }
+        while (s.length % grouping != 0) {
+          s = " " + s;
+        }
+        let i = 0;
+        let result = "";
+        for (const c of s) {
+          result += c;
+          i++;
+          if (i == grouping) {
+            result += " ";
+            i = 0;
+          }
+        }
+        return result.trim();
+      }
 
       function updateVal(newVal, validChar) {
         if (newVal != val && newVal >= 0 && newVal <= 0xffffffff) {
           val = newVal;
         }
-        document.getElementById("dec").value = val.toString(10);
-        document.getElementById("hex").value = val.toString(16).toUpperCase();
-        document.getElementById("oct").value = val.toString(8);
-        document.getElementById("bin").value = val.toString(2);
+        document.getElementById("dec").value = group(val.toString(10), 3);
+        document.getElementById("hex").value = group(
+          val.toString(16).toUpperCase(),
+          4,
+        );
+        document.getElementById("oct").value = group(val.toString(8), 3);
+        document.getElementById("bin").value = group(val.toString(2), 4);
         const c = val >= 32 && val < 0xffff ? String.fromCharCode(val) : " ";
 
         document.getElementById("char").value = c;
       }
 
       function doUpdate(valTxt, base) {
+        valTxt = valTxt.replaceAll(" ", "");
         if (valTxt === "") valTxt = "0";
         const newVal = Number.parseInt(valTxt, base);
         updateVal(newVal, false);
@@ -184,6 +213,10 @@
           }
         });
       });
+      groupCheckbox.addEventListener("change", (e) => {
+        updateVal(val, true);
+      });
+
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
