@@ -113,8 +113,17 @@
         <span id="DSEGClock-Year" class="Clock-Year-Front"></span>
       </div>
     </div>
+    <button id="lockButton">Lock</button>
 
     <script>
+      const lockButtonEl = document.getElementById("lockButton");
+      async function tryLock() {
+        await navigator?.wakeLock?.request("screen");
+        lockButtonEl.style.display = "none";
+      }
+      lockButtonEl.addEventListener("click", () => {
+        tryLock();
+      });
       var daylist = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
       function zeroPad(tm) {
